@@ -23,7 +23,7 @@ async fn main() {
                                 .route("/shows/delete/{id}", delete(delete_a_show))
                                 .with_state(db);
 
-    let listener = TcpListener::bind("0.0.0.0:8000").await.unwrap();
+    let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
 
     println!("Server running on localhost:8000");
 

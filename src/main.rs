@@ -6,9 +6,14 @@ use tokio::net::TcpListener;
 pub mod database;
 use database::*;
 
-use crate::show::{create_a_show, delete_a_show, fetch_all_shows, fetch_single_show, update_a_show};
 
 pub mod show;
+use show::*;
+
+pub mod playlist;
+use playlist::*;
+
+use crate::playlist::api::add_a_playlist;
 
 #[tokio::main]
 async fn main() {
@@ -21,11 +26,12 @@ async fn main() {
                                 .route("/shows/fetch/{id}", get(fetch_single_show))
                                 .route("/shows/update/{id}", put(update_a_show))
                                 .route("/shows/delete/{id}", delete(delete_a_show))
+                                .route("/playlists/add", post(add_a_playlist))
                                 .with_state(db);
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
 
-    println!("Server running on localhost:8000");
+    println!("Server running on localhost:8080");
 
     axum::serve(listener, routes.into_make_service()).await.unwrap();
 

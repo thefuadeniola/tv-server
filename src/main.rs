@@ -11,9 +11,8 @@ pub mod show;
 use show::*;
 
 pub mod playlist;
-use playlist::*;
 
-use crate::playlist::api::add_a_playlist;
+use crate::playlist::api::{add_a_playlist, fetch_all_playlists, fetch_single_playlist};
 
 #[tokio::main]
 async fn main() {
@@ -27,6 +26,8 @@ async fn main() {
                                 .route("/shows/update/{id}", put(update_a_show))
                                 .route("/shows/delete/{id}", delete(delete_a_show))
                                 .route("/playlists/add", post(add_a_playlist))
+                                .route("/playlists/fetch", get(fetch_all_playlists))
+                                .route("/playlists/fetch/{id}", get(fetch_single_playlist))
                                 .with_state(db);
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();

@@ -98,7 +98,7 @@ pub async fn delete_a_show(State(db): State<Database>, Path(id): Path<String>) -
 
     let res = shows_coll.delete_one(filter).await;
 
-    match(res) {
+    match res {
         Ok(_) => (StatusCode::OK, "Show deleted").into_response(),
         Err(_) => (StatusCode::INTERNAL_SERVER_ERROR).into_response()
     }

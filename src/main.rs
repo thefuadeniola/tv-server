@@ -1,6 +1,7 @@
 use axum::{response::IntoResponse, Router};
 use axum::routing::{delete, get, post, put};
 use tokio::net::TcpListener;
+use tower_http::cors::{CorsLayer, Any};
 
 
 pub mod database;
@@ -18,6 +19,11 @@ use crate::playlist::api::{add_a_playlist, fetch_all_playlists, fetch_single_pla
 async fn main() {
     let db = database_connection().await.expect("Failed to load database");
 
+    let cors = CorsLayer::new()
+                    .allow_origin(Any)
+                    .allow_methods(Any)
+                    .allow_headers(Any);
+
     let routes = Router::new()
                                 .route("/", get(handle_home_request))
                                 .route("/create", post(create_a_show))
@@ -28,6 +34,7 @@ async fn main() {
                                 .route("/playlists/add", post(add_a_playlist))
                                 .route("/playlists/fetch", get(fetch_all_playlists))
                                 .route("/playlists/fetch/{id}", get(fetch_single_playlist))
+                                .layer(cors)
                                 .with_state(db);
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();

@@ -12,6 +12,7 @@ async-trait = "0.1.88"
 futures = "0.3.31"
 tokio = "1.46.1"
 tokio-macros = "2.5.0"
+tower-http = { version = "0.6.6", features = ["cors"] }
 
 [dependencies.mongodb]
 version = "3.2.4"

@@ -3,17 +3,21 @@ use axum::routing::{delete, get, post, put};
 use tokio::net::TcpListener;
 use tower_http::cors::{CorsLayer, Any};
 
-
 pub mod database;
 use database::*;
 
+pub mod now_playing;
 
 pub mod show;
 use show::*;
 
 pub mod playlist;
+use playlist::*;
 
-use crate::playlist::api::{add_a_playlist, fetch_all_playlists, fetch_single_playlist};
+pub mod schedule;
+use schedule::*;
+
+pub mod error;
 
 #[tokio::main]
 async fn main() {
@@ -34,6 +38,8 @@ async fn main() {
                                 .route("/playlists/add", post(add_a_playlist))
                                 .route("/playlists/fetch", get(fetch_all_playlists))
                                 .route("/playlists/fetch/{id}", get(fetch_single_playlist))
+                                .route("/schedule/create", post(create_schedule_entry))
+                                // .route("/ws/now-playing", get(now_playing_ws))
                                 .layer(cors)
                                 .with_state(db);
 

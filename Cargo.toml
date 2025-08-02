@@ -7,13 +7,16 @@ edition = "2024"
 dotenv = "0.15.0"
 axum = "*"
 serde = { version = "*", features = ["derive"] }
+serde_json = "1.0.141"
 openssl = { version = "0.10.73", features = ["vendored"] }
 async-trait = "0.1.88"
 futures = "0.3.31"
 tokio = "1.46.1"
 tokio-macros = "2.5.0"
 tower-http = { version = "0.6.6", features = ["cors"] }
+tokio-tungstenite = "0.27.0"
+chrono = { version = "0.4.41", features=["serde"] }
+bson = { version = "2.8", features = ["chrono-0_4"] }
 
 [dependencies.mongodb]
 version = "3.2.4"
-
